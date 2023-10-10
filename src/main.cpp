@@ -7,7 +7,7 @@
 #include "lib/rlutil.h"
 
 int Option();
-void GeneratePassword(int);
+void GeneratePassword(int, int);
 void CheckFilePassword();
 void error();
 
@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 
 int Option()
 {
-    int option, large;
+    int option, large, counter = 0;
     do
     {
         std::cout << "------------------------------" << std::endl;
@@ -42,7 +42,8 @@ int Option()
             std::cin >> large;
             if (large > 0)
             {
-                GeneratePassword(large);
+                counter++;
+                GeneratePassword(large, counter);
             }
             else
             {
@@ -51,6 +52,7 @@ int Option()
             }
             break;
         case 2:
+            rlutil::cls();
             CheckFilePassword();
             break;
         case 3:
@@ -68,18 +70,17 @@ int Option()
     } while (option != 4);
 }
 
-void GeneratePassword(int large)
+void GeneratePassword(int large, int counter)
 {
     std::ofstream file;
     char character[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=";
-    int numberofchar = sizeof(character) - 1, counter = 0;
+    int numberofchar = sizeof(character) - 1;
 
     // std::srand(static_cast<unsigned int>(std::time(nullptr)));
     std::srand(std::time(nullptr));
 
     std::cout << "Password Generate: " << std::endl;
     file.open("passwords.txt", std::ios::app);
-    counter++;
     if (file.fail())
     {
         error();
@@ -93,7 +94,7 @@ void GeneratePassword(int large)
             int randomindex = std::rand() % numberofchar;
             char randomchracter = character[randomindex];
             std::cout << randomchracter;
-            file << randomchracter;
+            file << counter << randomchracter;
         }
         file << std::endl;
         file.close();
@@ -116,6 +117,10 @@ void CheckFilePassword()
         std::getline(file, passwords);
         std::cout << passwords << std::endl;
     }
+}
+
+void Delete()
+{
 }
 
 void error()
