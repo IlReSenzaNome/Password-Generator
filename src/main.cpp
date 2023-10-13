@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include "lib/rlutil.h"
+#include "../lib/rlutil.h"
 
 int Option();
 void GeneratePassword(int, const std::string &);
